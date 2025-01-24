@@ -1,4 +1,4 @@
-import mongoose, { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -50,8 +50,8 @@ export class User {
     example: '64b8c7e5f5c76a2d88a12345',
     type: String,
   })
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Condo' })
-  condo: mongoose.Types.ObjectId;
+  @Prop({ type: Types.ObjectId, ref: 'Condo', default: [] })
+  condos: Types.ObjectId[];
 
   @ApiProperty({
     description: 'Telefone do usuário',
