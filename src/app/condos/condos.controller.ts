@@ -7,6 +7,7 @@ import {
   UseGuards,
   Query,
   Patch,
+  Delete,
 } from '@nestjs/common';
 import { CondosService } from './condos.service';
 import { CondoDto } from './dtos/condo.dto';
@@ -60,5 +61,12 @@ export class CondosController {
     @Body() condoDto: CondoDto,
   ): Promise<ApiResponse<Condo | string>> {
     return this.condosService.update(id, condoDto);
+  }
+
+  @Delete()
+  @ApiOperation({ summary: 'Deletar um condomínio' })
+  @Roles('admin')
+  async delete(@Param('id') id: string): Promise<Condo | null> {
+    return this.condosService.delete(id);
   }
 }

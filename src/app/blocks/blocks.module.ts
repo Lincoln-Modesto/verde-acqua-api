@@ -1,9 +1,15 @@
 import { Module } from '@nestjs/common';
 import { BlocksService } from './blocks.service';
 import { BlocksController } from './blocks.controller';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Block, BlockSchema } from './schemas/block.schema';
 
 @Module({
+  imports: [
+    MongooseModule.forFeature([{ name: Block.name, schema: BlockSchema }]),
+  ],
   providers: [BlocksService],
-  controllers: [BlocksController]
+  controllers: [BlocksController],
+  exports: [BlocksService],
 })
 export class BlocksModule {}

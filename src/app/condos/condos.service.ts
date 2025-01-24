@@ -87,4 +87,8 @@ export class CondosService {
       };
     }
   }
+
+  async delete(id: string): Promise<Condo | null> {
+    return this.condoModel.findByIdAndDelete(id).exec();
+  }
 }
