@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Condo, CondoDocument } from './schemas/condo.schema';
-import { CreateCondoDto } from './dtos/condo.dto';
+import { CondoDto } from './dtos/condo.dto';
 import { ApiResponse, PaginatedResult } from 'src/models/apiResponse';
 
 @Injectable()
@@ -11,9 +11,7 @@ export class CondosService {
     @InjectModel(Condo.name) private condoModel: Model<CondoDocument>,
   ) {}
 
-  async create(
-    createCondoDto: CreateCondoDto,
-  ): Promise<ApiResponse<Condo | string>> {
+  async create(createCondoDto: CondoDto): Promise<ApiResponse<Condo | string>> {
     try {
       const newCondo = new this.condoModel(createCondoDto);
       const savedCondo = await newCondo.save();
@@ -64,5 +62,29 @@ export class CondosService {
 
   async findOne(id: string): Promise<Condo | null> {
     return this.condoModel.findById(id).exec();
+  }
+
+  async update(
+    id: string,
+    condo: Partial<Condo>,
+  ): Promise<ApiResponse<Condo | string>> {
+    try {
+      const condoUpdated = await this.condoModel
+        .findByIdAndUpdate(id, condo, { new: true })
+        .exec();
+      return {
+        success: true,
+        message: 'Condomínio atualizado com sucesso.',
+        data: condoUpdated ?? 'Condomínio não encontrado.',
+      };
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Erro desconhecido.';
+      return {
+        success: false,
+        message: 'Erro ao atualizar condomínio.',
+        data: errorMessage,
+      };
+    }
   }
 }

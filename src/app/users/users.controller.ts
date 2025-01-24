@@ -19,7 +19,7 @@ import { UsersService } from './users.service';
 import { User } from './schemas/user.schema';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { Roles } from 'src/decorators/roles.decorators';
-import { CreateUserDto } from './dtos/createUser.dto';
+import { UserDto } from './dtos/user.dto';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { ApiResponse, PaginatedResult } from 'src/models/apiResponse';
 
@@ -33,9 +33,7 @@ export class UsersController {
   @Post()
   @ApiOperation({ summary: 'Criar um novo usuário (manager ou collaborator)' })
   @Roles('admin', 'manager')
-  async create(
-    @Body() user: CreateUserDto,
-  ): Promise<ApiResponse<User | string>> {
+  async create(@Body() user: UserDto): Promise<ApiResponse<User | string>> {
     return this.usersService.create(user);
   }
 
@@ -84,7 +82,7 @@ export class UsersController {
   @ApiOperation({ summary: 'Atualizar um usuário' })
   async update(
     @Param('id') id: string,
-    @Body() user: CreateUserDto,
+    @Body() user: UserDto,
   ): Promise<User | null> {
     return this.usersService.update(id, user);
   }

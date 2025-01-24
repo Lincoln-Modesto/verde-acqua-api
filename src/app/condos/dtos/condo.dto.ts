@@ -6,8 +6,9 @@ import {
   IsOptional,
   IsMongoId,
 } from 'class-validator';
+import { Types } from 'mongoose';
 
-export class CreateCondoDto {
+export class CondoDto {
   @ApiProperty({
     description: 'O nome do condomínio',
     example: 'Residencial Bela Vista',
@@ -29,7 +30,7 @@ export class CreateCondoDto {
   })
   @IsArray()
   @IsMongoId({ each: true })
-  blocks: string[];
+  blocks: Types.ObjectId[];
 
   @ApiProperty({
     description: 'Rótulo para os blocos no condomínio',

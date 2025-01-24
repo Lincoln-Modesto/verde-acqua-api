@@ -6,9 +6,10 @@ import {
   Body,
   UseGuards,
   Query,
+  Patch,
 } from '@nestjs/common';
 import { CondosService } from './condos.service';
-import { CreateCondoDto } from './dtos/condo.dto';
+import { CondoDto } from './dtos/condo.dto';
 import { ApiResponse } from 'src/models/apiResponse';
 import { Condo } from './schemas/condo.schema';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -27,7 +28,7 @@ export class CondosController {
   @ApiOperation({ summary: 'Criar um novo condomínio' })
   @Roles('admin')
   async create(
-    @Body() createCondoDto: CreateCondoDto,
+    @Body() createCondoDto: CondoDto,
   ): Promise<ApiResponse<Condo | string>> {
     return this.condosService.create(createCondoDto);
   }
@@ -49,5 +50,15 @@ export class CondosController {
   @Roles('admin', 'manager')
   async findOne(@Param('id') id: string): Promise<Condo | null> {
     return this.condosService.findOne(id);
+  }
+
+  @Patch()
+  @ApiOperation({ summary: 'Atualizar um condomínio' })
+  @Roles('admin')
+  async update(
+    @Param('id') id: string,
+    @Body() condoDto: CondoDto,
+  ): Promise<ApiResponse<Condo | string>> {
+    return this.condosService.update(id, condoDto);
   }
 }
