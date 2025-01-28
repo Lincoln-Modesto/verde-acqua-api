@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, HydratedDocument, Types } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
+import { Unit } from 'src/app/units/schemas/unit.schema';
 
 export type BlockDocument = HydratedDocument<Block>;
 
@@ -25,7 +26,7 @@ export class Block extends Document {
     example: ['60a54c8b8f1a4d1d885e5c3b', '60a54c8b8f1a4d1d885e5c3c'],
     type: [String],
   })
-  @Prop({ type: [Types.ObjectId], ref: 'Unit', default: [] })
+  @Prop({ type: [Types.ObjectId], ref: Unit.name, default: [] })
   units: Types.ObjectId[];
 
   @ApiProperty({

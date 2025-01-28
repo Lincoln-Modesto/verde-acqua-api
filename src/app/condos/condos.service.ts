@@ -61,7 +61,17 @@ export class CondosService {
   }
 
   async findOne(id: string): Promise<Condo | null> {
-    return this.condoModel.findById(id).exec();
+    return this.condoModel
+      .findById(id)
+      .populate({
+        path: 'blocks',
+        model: 'Block',
+        populate: {
+          path: 'units',
+          model: 'Unit',
+        },
+      })
+      .exec();
   }
 
   async update(
