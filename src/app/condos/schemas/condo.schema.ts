@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, HydratedDocument, Types } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
+import { Block } from 'src/app/blocks/schemas/block.schema';
 
 export type CondoDocument = HydratedDocument<Condo>;
 
@@ -25,7 +26,7 @@ export class Condo extends Document {
     type: [String],
     example: ['605c72ef7d1f4c23c4d5a6b1', '605c72ef7d1f4c23c4d5a6b2'],
   })
-  @Prop({ type: [Types.ObjectId], ref: 'Block', default: [] })
+  @Prop({ type: [Types.ObjectId], ref: Block.name, default: [] })
   blocks: Types.ObjectId[];
 
   @ApiProperty({

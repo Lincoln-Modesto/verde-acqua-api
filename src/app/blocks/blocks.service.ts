@@ -63,7 +63,13 @@ export class BlocksService {
   }
 
   async findOne(id: string): Promise<Block | null> {
-    return this.blockModel.findById(id).exec();
+    return this.blockModel
+      .findById(id)
+      .populate({
+        path: 'units',
+        model: 'Unit',
+      })
+      .exec();
   }
 
   async update(

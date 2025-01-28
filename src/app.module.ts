@@ -7,6 +7,7 @@ import { UsersModule } from './app/users/users.module';
 import { AuthModule } from './app/auth/auth.module';
 import { CondosModule } from './app/condos/condos.module';
 import { BlocksModule } from './app/blocks/blocks.module';
+import { UnitsModule } from './app/units/units.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { BlocksModule } from './app/blocks/blocks.module';
     UsersModule,
     CondosModule,
     BlocksModule,
+    UnitsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
