@@ -46,12 +46,20 @@ export class User {
   password: string;
 
   @ApiProperty({
-    description: 'ID do condomínio associado ao usuário',
+    description: 'Lista de IDs de condomínios ao qual o usuário pertence',
     example: '64b8c7e5f5c76a2d88a12345',
     type: String,
   })
   @Prop({ type: Types.ObjectId, ref: 'Condo', default: [] })
-  condos: Types.ObjectId[];
+  condos?: Types.ObjectId[];
+
+  @ApiProperty({
+    description: 'Lista de IDs de empresas ao qual o usuário pertence',
+    example: '64b8c7e5f5c76a2d88a12345',
+    type: String,
+  })
+  @Prop({ type: Types.ObjectId, ref: 'Company', default: [] })
+  company?: Types.ObjectId[];
 
   @ApiProperty({
     description: 'Telefone do usuário',

@@ -1,14 +1,14 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, HydratedDocument, Types } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { Block } from 'src/app/blocks/schemas/block.schema';
+import { Sector } from 'src/app/blocks/schemas/sector.schema';
 
-export type CondoDocument = HydratedDocument<Condo>;
+export type CompanyDocument = HydratedDocument<Company>;
 
 @Schema()
-export class Condo extends Document {
+export class Company extends Document {
   @ApiProperty({
-    description: 'O nome do condomínio',
+    description: 'O nome da empresa',
     example: 'Sunset Towers',
   })
   @Prop({ required: true })
@@ -22,29 +22,31 @@ export class Condo extends Document {
   address: string;
 
   @ApiProperty({
-    description: 'Lista de IDs dos blocos associados ao condomínio',
+    description: 'Lista de IDs dos setores associados a empresa',
     type: [String],
     example: ['605c72ef7d1f4c23c4d5a6b1', '605c72ef7d1f4c23c4d5a6b2'],
   })
-  @Prop({ type: [Types.ObjectId], ref: Block.name, default: [] })
-  blocks: Types.ObjectId[];
+  @Prop({ type: [Types.ObjectId], ref: Sector.name, default: [] })
+  sector?: Types.ObjectId[];
 
   @ApiProperty({
-    description: 'Rótulo para os blocos no condomínio',
-    example: 'Torre',
+    description: 'Tipo da empresa',
+    example: 'Condomínio',
+    required: true,
   })
   @Prop({ required: true })
-  blockLabel: string;
+  type:
+    | 'condo'
+    | 'hospital'
+    | 'school'
+    | 'mall'
+    | 'office'
+    | 'hotel'
+    | 'factory'
+    | 'other';
 
   @ApiProperty({
-    description: 'Rótulo para as unidades no condomínio',
-    example: 'Apartamento',
-  })
-  @Prop({ required: true })
-  unitLabel: string;
-
-  @ApiProperty({
-    description: 'Indica se o condomínio está ativo',
+    description: 'Indica se a empresa está ativa',
     default: true,
     example: true,
   })
@@ -52,11 +54,11 @@ export class Condo extends Document {
   active: boolean;
 
   @ApiProperty({
-    description: 'CNPJ do condomínio',
+    description: 'CNPJ da empresa',
     example: '12.345.678/0001-99',
   })
   @Prop({ required: true })
   cnpj: string;
 }
 
-export const CondoSchema = SchemaFactory.createForClass(Condo);
+export const CompanySchema = SchemaFactory.createForClass(Company);

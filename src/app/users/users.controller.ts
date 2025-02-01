@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   Controller,
   Get,
@@ -31,6 +33,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Criar um novo usuário (manager ou collaborator)' })
   @Roles('admin', 'manager')
   async create(@Body() user: UserDto): Promise<ApiResponse<User | string>> {

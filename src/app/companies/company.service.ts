@@ -1,31 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Condo, CondoDocument } from './schemas/condo.schema';
-import { CondoDto } from './dtos/condo.dto';
+import { Company, CompanyDocument } from './schemas/company.schema';
+import { CompanyDto } from './dtos/company.dto';
 import { ApiResponse, PaginatedResult } from 'src/models/apiResponse';
 
 @Injectable()
-export class CondosService {
+export class CompanyService {
   constructor(
-    @InjectModel(Condo.name) private condoModel: Model<CondoDocument>,
+    @InjectModel(Company.name) private companyModel: Model<CompanyDocument>,
   ) {}
 
-  async create(createCondoDto: CondoDto): Promise<ApiResponse<Condo | string>> {
+  async create(companyDto: CompanyDto): Promise<ApiResponse<Company | string>> {
     try {
-      const newCondo = new this.condoModel(createCondoDto);
-      const savedCondo = await newCondo.save();
+      const newCompany = new this.companyModel(companyDto);
+      const savedCompany = await newCompany.save();
       return {
         success: true,
-        message: 'Condomínio criado com sucesso.',
-        data: savedCondo,
+        message: 'Empresa criada com sucesso.',
+        data: savedCompany,
       };
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : 'Erro desconhecido.';
       return {
         success: false,
-        message: 'Erro ao criar condomínio.',
+        message: 'Erro ao criar empresa.',
         data: errorMessage,
       };
     }
@@ -35,13 +35,13 @@ export class CondosService {
     page: number = 1,
     limit: number = 10,
     filter: Record<string, any> = {},
-  ): Promise<PaginatedResult<Condo>> {
+  ): Promise<PaginatedResult<Company>> {
     page = Math.max(1, page);
     limit = Math.max(1, limit);
 
-    const total = await this.condoModel.countDocuments(filter).exec();
+    const total = await this.companyModel.countDocuments(filter).exec();
 
-    const data = await this.condoModel
+    const data = await this.companyModel
       .find(filter)
       .skip((page - 1) * limit)
       .limit(limit)
@@ -60,12 +60,12 @@ export class CondosService {
     };
   }
 
-  async findOne(id: string): Promise<Condo | null> {
-    return this.condoModel
+  async findOne(id: string): Promise<Company | null> {
+    return this.companyModel
       .findById(id)
       .populate({
-        path: 'blocks',
-        model: 'Block',
+        path: 'sectors',
+        model: 'Sectors',
         populate: {
           path: 'units',
           model: 'Unit',
@@ -76,29 +76,29 @@ export class CondosService {
 
   async update(
     id: string,
-    condo: Partial<Condo>,
-  ): Promise<ApiResponse<Condo | string>> {
+    company: Partial<Company>,
+  ): Promise<ApiResponse<Company | string>> {
     try {
-      const condoUpdated = await this.condoModel
-        .findByIdAndUpdate(id, condo, { new: true })
+      const companyUpdated = await this.companyModel
+        .findByIdAndUpdate(id, company, { new: true })
         .exec();
       return {
         success: true,
-        message: 'Condomínio atualizado com sucesso.',
-        data: condoUpdated ?? 'Condomínio não encontrado.',
+        message: 'Empresa atualizada com sucesso.',
+        data: companyUpdated ?? 'Empresa não encontrada.',
       };
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : 'Erro desconhecido.';
       return {
         success: false,
-        message: 'Erro ao atualizar condomínio.',
+        message: 'Erro ao atualizar empresa.',
         data: errorMessage,
       };
     }
   }
 
-  async delete(id: string): Promise<Condo | null> {
-    return this.condoModel.findByIdAndDelete(id).exec();
+  async delete(id: string): Promise<Company | null> {
+    return this.companyModel.findByIdAndDelete(id).exec();
   }
 }

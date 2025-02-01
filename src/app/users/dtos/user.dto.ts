@@ -6,6 +6,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
+import { Types } from 'mongoose';
 
 export class UserDto {
   @ApiProperty({ example: 'John Doe', description: 'Nome do usuário' })
@@ -33,6 +34,24 @@ export class UserDto {
   @IsOptional()
   @IsString()
   phone?: string;
+
+  @ApiProperty({
+    example: ['64be69e1a7f1930015e9dfec', '64be69e1a7f1930015e9dfec'],
+    description: 'Lista de IDs de condomínios ao qual o usuário pertence',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  condos?: Types.ObjectId[];
+
+  @ApiProperty({
+    example: ['64be69e1a7f1930015e9dfec', '64be69e1a7f1930015e9dfec'],
+    description: 'Lista de IDs de empresas ao qual o usuário pertence',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  company?: Types.ObjectId[];
 
   @ApiProperty({
     example: 'admin',

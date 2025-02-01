@@ -1,33 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Block, BlockDocument } from './schemas/block.schema';
-import { CreateBlockDto } from './dtos/block.dto';
+import { Sector, SectorDocument } from './schemas/sector.schema';
+import { SectorDto } from './dtos/sector.dto';
 import { ApiResponse, PaginatedResult } from 'src/models/apiResponse';
 
 @Injectable()
-export class BlocksService {
+export class SectorService {
   constructor(
-    @InjectModel(Block.name) private readonly blockModel: Model<BlockDocument>,
+    @InjectModel(Sector.name)
+    private readonly sectorModel: Model<SectorDocument>,
   ) {}
 
-  async create(
-    createBlockDto: CreateBlockDto,
-  ): Promise<ApiResponse<Block | string>> {
+  async create(sectorDto: SectorDto): Promise<ApiResponse<Sector | string>> {
     try {
-      const newBlock = new this.blockModel(createBlockDto);
-      const savedBlock = await newBlock.save();
+      const newSector = new this.sectorModel(sectorDto);
+      const savedSector = await newSector.save();
       return {
         success: true,
-        message: 'Bloco criado com sucesso.',
-        data: savedBlock,
+        message: 'Setor criado com sucesso.',
+        data: savedSector,
       };
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : 'Erro desconhecido.';
       return {
         success: false,
-        message: 'Erro ao criar bloco.',
+        message: 'Erro ao criar setor.',
         data: errorMessage,
       };
     }
@@ -37,13 +36,13 @@ export class BlocksService {
     page: number = 1,
     limit: number = 10,
     filter: Record<string, any> = {},
-  ): Promise<PaginatedResult<Block>> {
+  ): Promise<PaginatedResult<Sector>> {
     page = Math.max(1, page);
     limit = Math.max(1, limit);
 
-    const total = await this.blockModel.countDocuments(filter).exec();
+    const total = await this.sectorModel.countDocuments(filter).exec();
 
-    const data = await this.blockModel
+    const data = await this.sectorModel
       .find(filter)
       .skip((page - 1) * limit)
       .limit(limit)
@@ -62,8 +61,8 @@ export class BlocksService {
     };
   }
 
-  async findOne(id: string): Promise<Block | null> {
-    return this.blockModel
+  async findOne(id: string): Promise<Sector | null> {
+    return this.sectorModel
       .findById(id)
       .populate({
         path: 'units',
@@ -74,32 +73,32 @@ export class BlocksService {
 
   async update(
     id: string,
-    updateBlockDto: Partial<CreateBlockDto>,
-  ): Promise<ApiResponse<Block | string>> {
+    sectorDto: Partial<SectorDto>,
+  ): Promise<ApiResponse<Sector | string>> {
     try {
-      const updatedBlock = await this.blockModel
-        .findByIdAndUpdate(id, updateBlockDto, { new: true })
+      const updatedBlock = await this.sectorModel
+        .findByIdAndUpdate(id, sectorDto, { new: true })
         .exec();
 
       if (updatedBlock) {
         return {
           success: true,
-          message: 'Bloco atualizado com sucesso.',
+          message: 'Setor atualizado com sucesso.',
           data: updatedBlock,
         };
       }
 
       return {
         success: false,
-        message: 'Bloco não encontrado.',
-        data: 'Bloco não encontrado.',
+        message: 'Setor não encontrado.',
+        data: 'Setor não encontrado.',
       };
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : 'Erro desconhecido.';
       return {
         success: false,
-        message: 'Erro ao atualizar bloco.',
+        message: 'Erro ao atualizar setor.',
         data: errorMessage,
       };
     }
@@ -107,17 +106,17 @@ export class BlocksService {
 
   async delete(id: string): Promise<ApiResponse<string>> {
     try {
-      const result = await this.blockModel.findByIdAndDelete(id).exec();
+      const result = await this.sectorModel.findByIdAndDelete(id).exec();
       if (result) {
         return {
           success: true,
-          message: 'Bloco deletado com sucesso.',
+          message: 'Setor deletado com sucesso.',
           data: id,
         };
       }
       return {
         success: false,
-        message: 'Bloco não encontrado.',
+        message: 'Setor não encontrado.',
         data: id,
       };
     } catch (error: unknown) {
@@ -125,7 +124,7 @@ export class BlocksService {
         error instanceof Error ? error.message : 'Erro desconhecido.';
       return {
         success: false,
-        message: 'Erro ao deletar bloco.',
+        message: 'Erro ao deletar Setor.',
         data: errorMessage,
       };
     }
