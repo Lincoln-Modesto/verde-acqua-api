@@ -8,55 +8,57 @@ import {
 } from 'class-validator';
 import { Types } from 'mongoose';
 
-export class CondoDto {
+export class CompanyDto {
   @ApiProperty({
-    description: 'O nome do condomínio',
+    description: 'O nome da empresa',
     example: 'Residencial Bela Vista',
   })
   @IsString()
   name: string;
 
   @ApiProperty({
-    description: 'O endereço do condomínio',
+    description: 'O endereço da empresa',
     example: 'Avenida Central, 1234, São Paulo, SP',
   })
   @IsString()
   address: string;
 
   @ApiProperty({
-    description: 'Lista de IDs dos blocos associados ao condomínio',
+    description: 'Lista de IDs dos setores associados a empresa',
     type: [String],
     example: ['60a54c8b8f1a4d1d885e5c3a', '60a54c8b8f1a4d1d885e5c3b'],
   })
   @IsArray()
+  @IsOptional()
   @IsMongoId({ each: true })
-  blocks: Types.ObjectId[];
-
-  @ApiProperty({
-    description: 'Rótulo para os blocos no condomínio',
-    example: 'Torre',
-  })
-  @IsString()
-  blockLabel: string;
-
-  @ApiProperty({
-    description: 'Rótulo para as unidades no condomínio',
-    example: 'Apartamento',
-  })
-  @IsString()
-  unitLabel: string;
+  sectors?: Types.ObjectId[];
 
   @ApiProperty({
     description: 'Indica se o condomínio está ativo',
     example: true,
     required: false,
   })
-  @IsOptional()
   @IsBoolean()
   active: boolean;
 
   @ApiProperty({
-    description: 'CNPJ do condomínio',
+    description: 'Tipo da empresa',
+    example: 'Condomínio',
+    required: true,
+  })
+  @IsString()
+  type:
+    | 'condo'
+    | 'hospital'
+    | 'school'
+    | 'mall'
+    | 'office'
+    | 'hotel'
+    | 'factory'
+    | 'other';
+
+  @ApiProperty({
+    description: 'CNPJ da empresa',
     example: '12.345.678/0001-99',
   })
   @IsString()

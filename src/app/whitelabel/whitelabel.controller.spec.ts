@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CondosController } from './condos.controller';
+import { WhitelabelController } from './whitelabel.controller';
 
-describe('CondosController', () => {
-  let controller: CondosController;
+describe('WhitelabelController', () => {
+  let controller: WhitelabelController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [CondosController],
+      controllers: [WhitelabelController],
     }).compile();
 
-    controller = module.get<CondosController>(CondosController);
+    controller = module.get<WhitelabelController>(WhitelabelController);
   });
 
   it('should be defined', () => {
