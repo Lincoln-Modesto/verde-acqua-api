@@ -59,6 +59,13 @@ export class Company extends Document {
   })
   @Prop({ required: true })
   cnpj: string;
+
+  @ApiProperty({
+    description: 'ID da whitelabel ao qual a empresa pertence',
+    example: '605c72ef7d1f4c23c4d5a6b1',
+  })
+  @Prop({ required: true })
+  whitelabel: Types.ObjectId;
 }
 
 export const CompanySchema = SchemaFactory.createForClass(Company);
