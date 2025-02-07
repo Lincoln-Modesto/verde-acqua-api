@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Document, Types } from 'mongoose';
 
 @Schema({ timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } })
-export class HydrometerReading extends Document {
+export class Reading extends Document {
   @ApiProperty({
     description: 'Data da leitura',
     example: '2024-02-01T12:00:00Z',
@@ -19,11 +19,11 @@ export class HydrometerReading extends Document {
   company: Types.ObjectId;
 
   @ApiProperty({
-    description: 'Hidrômetro referenciado',
+    description: 'Medidor referenciado',
     example: '65f1b3c9e6b5d5a3e6b5d5b4',
   })
-  @Prop({ type: Types.ObjectId, ref: 'Hydrometer', required: true })
-  hydrometer: Types.ObjectId;
+  @Prop({ type: Types.ObjectId, ref: 'Meter', required: true })
+  meter: Types.ObjectId;
 
   @ApiProperty({
     description: 'Foto da leitura',
@@ -75,6 +75,13 @@ export class HydrometerReading extends Document {
   })
   @Prop({ type: Types.ObjectId, ref: 'Sector', required: true })
   sector: Types.ObjectId;
+
+  @ApiProperty({
+    description: 'Tipo do medidor',
+    enum: ['water', 'electricity', 'gas'],
+  })
+  @Prop({ type: ['water', 'electricity', 'gas'], required: true })
+  meterType: Types.ObjectId;
 
   @ApiProperty({
     description: 'Unidade associada',
@@ -147,5 +154,4 @@ export class HydrometerReading extends Document {
   alert?: boolean;
 }
 
-export const HydrometerReadingSchema =
-  SchemaFactory.createForClass(HydrometerReading);
+export const ReadingSchema = SchemaFactory.createForClass(Reading);

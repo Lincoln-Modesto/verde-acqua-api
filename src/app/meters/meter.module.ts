@@ -12,4 +12,4 @@ import { Meter, MeterSchema } from './schemas/meter.schema';
   providers: [MeterService],
   exports: [MeterService],
 })
-export class meterModule {}
+export class MeterModule {}

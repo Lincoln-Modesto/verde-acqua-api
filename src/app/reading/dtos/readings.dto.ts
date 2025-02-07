@@ -21,7 +21,7 @@ export class GpsLocationDto {
   lng: number;
 }
 
-export class HydrometerReadingDto {
+export class ReadingDto {
   @ApiProperty({
     description: 'Data da leitura',
     example: '2024-02-01T12:00:00Z',
@@ -37,11 +37,11 @@ export class HydrometerReadingDto {
   company: string;
 
   @ApiProperty({
-    description: 'Hidrômetro referenciado',
+    description: 'Medidor referenciado',
     example: '65f1b3c9e6b5d5a3e6b5d5b4',
   })
   @IsMongoId()
-  hydrometer: string;
+  meter: string;
 
   @ApiProperty({
     description: 'Foto da leitura',
@@ -97,6 +97,14 @@ export class HydrometerReadingDto {
   })
   @IsEnum(['manual', 'automática', 'estimada'])
   readingType: string;
+
+  @ApiProperty({
+    description: 'Tipo da leitura',
+    example: 'manual',
+    enum: ['water', 'electricity', 'gas'],
+  })
+  @IsEnum(['water', 'electricity', 'gas'])
+  metertType: string;
 
   @ApiProperty({
     description: 'Diferença entre a leitura atual e a anterior',

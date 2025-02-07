@@ -8,26 +8,24 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { HydrometerReadingService } from './readings.service';
-import { HydrometerReadingDto } from './dtos/readings.dto';
+import { ReadingService } from './readings.service';
+import { ReadingDto } from './dtos/readings.dto';
 import { ApiTags, ApiOperation, ApiParam, ApiQuery } from '@nestjs/swagger';
 
-@ApiTags('Hydrometer Readings')
-@Controller('hydrometer-readings')
-export class HydrometerReadingController {
-  constructor(
-    private readonly hydrometerReadingService: HydrometerReadingService,
-  ) {}
+@ApiTags('Readings')
+@Controller('readings')
+export class ReadingController {
+  constructor(private readonly readingService: ReadingService) {}
 
   @Post()
-  @ApiOperation({ summary: 'Criar uma nova leitura de hidrômetro' })
-  create(@Body() createHydrometerReadingDto: HydrometerReadingDto) {
-    return this.hydrometerReadingService.create(createHydrometerReadingDto);
+  @ApiOperation({ summary: 'Criar uma nova leitura de Medidor' })
+  create(@Body() readingDto: ReadingDto) {
+    return this.readingService.create(readingDto);
   }
 
   @Get()
   @ApiOperation({
-    summary: 'Buscar todas as leituras de hidrômetro com paginação',
+    summary: 'Buscar todas as leituras de Medidor com paginação',
   })
   @ApiQuery({
     name: 'company',
@@ -58,7 +56,7 @@ export class HydrometerReadingController {
     @Query('page') page = '1',
     @Query('limit') limit = '10',
   ) {
-    return this.hydrometerReadingService.findAll({
+    return this.readingService.findAll({
       company,
       sector,
       unit,
@@ -67,12 +65,12 @@ export class HydrometerReadingController {
     });
   }
 
-  @Get('by-hydrometer')
+  @Get('by-meter')
   @ApiQuery({
-    name: 'hydrometer',
+    name: 'meter',
     type: String,
     required: true,
-    description: 'ID do hidrômetro',
+    description: 'ID do Medidor',
   })
   @ApiQuery({
     name: 'unit',
@@ -102,18 +100,18 @@ export class HydrometerReadingController {
     name: 'limit',
     type: Number,
     required: false,
-    description: 'Itens por página (padrão: 10)',
+    description: 'Itens por página (padrão: 20)',
   })
-  async findByHydrometer(
-    @Query('hydrometer') hydrometer: string,
+  async findByMeter(
+    @Query('meter') meter: string,
     @Query('unit') unit?: string,
     @Query('sector') sector?: string,
     @Query('company') company?: string,
     @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
+    @Query('limit') limit: number = 20,
   ) {
-    return this.hydrometerReadingService.findByHydrometer({
-      hydrometer,
+    return this.readingService.findByMeter({
+      meter,
       unit,
       sector,
       company,
@@ -124,25 +122,22 @@ export class HydrometerReadingController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Buscar leitura específica por ID' })
-  @ApiParam({ name: 'id', description: 'ID da leitura de hidrômetro' })
+  @ApiParam({ name: 'id', description: 'ID da leitura de Medidor' })
   findOne(@Param('id') id: string) {
-    return this.hydrometerReadingService.findOne(id);
+    return this.readingService.findOne(id);
   }
 
   @Put(':id')
   @ApiOperation({ summary: 'Atualizar uma leitura existente' })
-  @ApiParam({ name: 'id', description: 'ID da leitura de hidrômetro' })
-  update(
-    @Param('id') id: string,
-    @Body() updateHydrometerReadingDto: HydrometerReadingDto,
-  ) {
-    return this.hydrometerReadingService.update(id, updateHydrometerReadingDto);
+  @ApiParam({ name: 'id', description: 'ID da leitura de Medidor' })
+  update(@Param('id') id: string, @Body() readingDto: ReadingDto) {
+    return this.readingService.update(id, readingDto);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Deletar uma leitura' })
-  @ApiParam({ name: 'id', description: 'ID da leitura de hidrômetro' })
+  @ApiParam({ name: 'id', description: 'ID da leitura de Medidor' })
   remove(@Param('id') id: string) {
-    return this.hydrometerReadingService.remove(id);
+    return this.readingService.remove(id);
   }
 }
