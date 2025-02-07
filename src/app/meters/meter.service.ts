@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Hydrometer } from './schemas/hydrometer.schema';
-import { CreateHydrometerDto } from './dtos/hydrometer.dtos';
+import { Meter } from './schemas/meter.schema';
+import { MeterDto } from './dtos/meter.dtos';
 
 @Injectable()
-export class HydrometerService {
+export class MeterService {
   constructor(
-    @InjectModel(Hydrometer.name)
-    private readonly hydrometerModel: Model<Hydrometer>,
+    @InjectModel(Meter.name)
+    private readonly hydrometerModel: Model<Meter>,
   ) {}
 
-  async create(createHydrometerDto: CreateHydrometerDto): Promise<Hydrometer> {
-    const createdHydrometer = new this.hydrometerModel(createHydrometerDto);
+  async create(meterDto: MeterDto): Promise<Meter> {
+    const createdHydrometer = new this.hydrometerModel(meterDto);
     return createdHydrometer.save();
   }
 
@@ -20,7 +20,7 @@ export class HydrometerService {
     page: number = 1,
     limit: number = 10,
   ): Promise<{
-    data: Hydrometer[];
+    data: Meter[];
     total: number;
     page: number;
     totalPages: number;
@@ -43,7 +43,7 @@ export class HydrometerService {
     };
   }
 
-  async findOne(id: string): Promise<Hydrometer | null> {
+  async findOne(id: string): Promise<Meter | null> {
     return this.hydrometerModel.findById(id).exec();
   }
 
@@ -86,16 +86,13 @@ export class HydrometerService {
     };
   }
 
-  async update(
-    id: string,
-    createHydrometerDto: CreateHydrometerDto,
-  ): Promise<Hydrometer | null> {
+  async update(id: string, meterDto: MeterDto): Promise<Meter | null> {
     return this.hydrometerModel
-      .findByIdAndUpdate(id, createHydrometerDto, { new: true })
+      .findByIdAndUpdate(id, meterDto, { new: true })
       .exec();
   }
 
-  async remove(id: string): Promise<Hydrometer | null> {
+  async remove(id: string): Promise<Meter | null> {
     return this.hydrometerModel.findByIdAndDelete(id).exec();
   }
 }

@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { HydrometerReadingService } from './hydrometer-reading.service';
+import { HydrometerReadingService } from './readings.service';
 
 describe('HydrometerReadingService', () => {
   let service: HydrometerReadingService;

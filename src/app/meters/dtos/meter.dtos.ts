@@ -15,8 +15,8 @@ class LocationType {
   longitude: number;
 }
 
-export class CreateHydrometerDto {
-  @ApiProperty({ description: 'Nome do hidrômetro' })
+export class MeterDto {
+  @ApiProperty({ description: 'Nome do meditor' })
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -25,44 +25,51 @@ export class CreateHydrometerDto {
   @IsNotEmpty()
   company: Types.ObjectId;
 
+  @ApiProperty({
+    description: 'Tipo do medidor',
+    enum: ['water', 'electricity', 'gas'],
+  })
+  @IsEnum(['water', 'electricity', 'gas'])
+  @IsNotEmpty()
+  meterType: 'water' | 'electricity' | 'gas';
+
   @ApiProperty({ description: 'ID do setor associado' })
   sector: Types.ObjectId;
 
   @ApiProperty({ description: 'ID da unidade associada' })
   unit: Types.ObjectId;
 
-  @ApiProperty({ description: 'Ambiente onde o hidrômetro está localizado' })
+  @ApiProperty({ description: 'Ambiente onde o Medidor está localizado' })
   @IsString()
-  @IsNotEmpty()
   environment: string;
 
-  @ApiProperty({ description: 'Descrição do hidrômetro', required: false })
+  @ApiProperty({ description: 'Descrição do medidor', required: false })
   @IsString()
   @IsOptional()
   description?: string;
 
-  @ApiProperty({ description: 'Fabricante do hidrômetro' })
+  @ApiProperty({ description: 'Fabricante do medidor' })
   @IsString()
   @IsOptional()
   manufacturer: string;
 
-  @ApiProperty({ description: 'Modelo do hidrômetro' })
+  @ApiProperty({ description: 'Modelo do medidor' })
   @IsOptional()
   @IsString()
   hydrometerModel: string;
 
-  @ApiProperty({ description: 'Número de série do hidrômetro' })
+  @ApiProperty({ description: 'Número de série do medidor' })
   @IsOptional()
   @IsString()
   serialNumber: string;
 
-  @ApiProperty({ description: 'Data de instalação do hidrômetro' })
+  @ApiProperty({ description: 'Data de instalação do medidor' })
   @IsOptional()
   @IsDate()
   installationDate: Date;
 
   @ApiProperty({
-    description: 'Status do hidrômetro',
+    description: 'Status do medidor',
     enum: ['active', 'inactive', 'maintenance'],
     default: 'active',
   })
@@ -71,7 +78,7 @@ export class CreateHydrometerDto {
   status: string;
 
   @ApiProperty({
-    description: 'Última leitura registrada do hidrômetro',
+    description: 'Última leitura registrada do medidor',
     required: false,
   })
   @IsNumber()
@@ -87,25 +94,25 @@ export class CreateHydrometerDto {
   lastReadingDate?: Date;
 
   @ApiProperty({
-    description: 'Próxima leitura registrada do hidrômetro',
+    description: 'Próxima leitura registrada do medidor',
     required: false,
   })
   @IsDate()
   @IsOptional()
   nextReadingDate?: Date;
 
-  @ApiProperty({ description: 'Imagem do hidrômetro' })
+  @ApiProperty({ description: 'Imagem do medidor' })
   @IsString()
   @IsOptional()
   image: string;
 
-  @ApiProperty({ description: 'Tipo do hidrômetro', required: false })
+  @ApiProperty({ description: 'Tipo do medidor', required: false })
   @IsString()
   @IsOptional()
   type?: string;
 
   @ApiProperty({
-    description: 'Localização geográfica do hidrômetro',
+    description: 'Localização geográfica do medidor',
     required: false,
   })
   @IsObject()

@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { HydrometerReadingController } from './hydrometer-reading.controller';
+import { HydrometerReadingController } from './readings.controller';
 
 describe('HydrometerReadingController', () => {
   let controller: HydrometerReadingController;
