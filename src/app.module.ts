@@ -9,8 +9,8 @@ import { CompanyModule } from './app/companies/company.module';
 import { SectorModule } from './app/blocks/sectors.module';
 import { UnitsModule } from './app/units/units.module';
 import { WhitelabelModule } from './app/whitelabel/whitelabel.module';
-import { HydrometerModule } from './app/hydrometer/hydrometer.module';
-import { HydrometerReadingModule } from './app/hydrometer-reading/hydrometer-reading.module';
+import { meterModule } from './app/meters/meter.module';
+import { HydrometerReadingModule } from './app/hydrometer-reading/readings.module';
 
 @Module({
   imports: [
@@ -28,7 +28,7 @@ import { HydrometerReadingModule } from './app/hydrometer-reading/hydrometer-rea
     SectorModule,
     UnitsModule,
     WhitelabelModule,
-    HydrometerModule,
+    meterModule,
     HydrometerReadingModule,
   ],
   controllers: [AppController],
